@@ -6,6 +6,7 @@ exports.up = function(knex) {
       .notNullable()
       .unique();
     users.string("password", 255).notNullable();
+    users.string("department", 255).notNullable();
   });
 };
 
