@@ -22,17 +22,24 @@ router.post("/register", (req, res) => {
   const credentials = req.body;
   const hash = bcrypt.hashSync(credentials.password, 14);
   credentials.password = hash;
-  dataBase
-    .add(req.body)
-    .then(hub => {
-      res.status(201).json(hub);
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({
-        message: "Error adding the hub"
-      });
+  if (!req.body.username || !req.body.password || !req.body.department) {
+    res.status(400).json({
+      message:
+        "Please provide username, password and department before posting to endpoint -Anywhere Fitness Inc."
     });
+  } else {
+    dataBase
+      .add(req.body)
+      .then(hub => {
+        res.status(201).json(hub);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json({
+          message: "Error adding the hub"
+        });
+      });
+  }
 });
 
 router.post("/login", (req, res) => {
