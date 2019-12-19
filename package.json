@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/AnywhereFitness1/Backend.git",
+  "author": "milano12345 <dmilano857@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js",
+    "test": "jest --watch --verbose"
+  },
+  "dependencies": {
+    "bcrypt": "3.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.20.4",
+    "node-pre-gyp": "^0.14.0",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
