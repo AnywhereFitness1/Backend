@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const auth = require("./authenticate-middleware");
-const dataBase = require("../database/models/classes");
+const dataBase = require("../database/models/users");
 const jwt = require("jsonwebtoken");
 
 router.get("/users", auth, (req, res) => {
@@ -47,7 +47,12 @@ router.post("/login", (req, res) => {
     .findBy(req.body.username)
     .first()
     .then(user => {
-      if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      if (!req.body.username || !req.body.password || !req.body.department) {
+        res.status(400).json({
+          message:
+            "Please provide username, password and department before posting to endpoint -Anywhere Fitness Inc."
+        });
+      } else if (user && bcrypt.compareSync(req.body.password, user.password)) {
         token = generateToken(user);
         res.status(200).json({ message: `Welcome ${user.username}`, token });
       } else {
