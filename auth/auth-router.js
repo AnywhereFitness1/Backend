@@ -85,7 +85,7 @@ router.get("/classes", auth, (req, res) => {
     });
 });
 
-router.get("/:id", checkClassById, (req, res) => {
+router.get("/:id", auth, checkClassById, (req, res) => {
   classes
     .findById(req.params.id)
     .then(project => {
@@ -96,7 +96,7 @@ router.get("/:id", checkClassById, (req, res) => {
     });
 });
 
-router.post("/createclass", (req, res) => {
+router.post("/createclass", auth, (req, res) => {
   classes
     .add(req.body)
     .then(hub => {
@@ -112,18 +112,18 @@ router.post("/createclass", (req, res) => {
 
 //
 
-router.delete("/:id", checkClassById, (req, res) => {
+router.delete("/:id", checkClassById, auth, (req, res) => {
   classes
     .remove(req.params.id)
     .then(hub => {
-      res.status(201).json(hub);
+      res.status(201).json({ message: "class successfully deleted!" });
     })
     .catch(error => {
-      res.status(500).json({ message: "error deleting the user" });
+      res.status(500).json({ message: "error deleting the class" });
     });
 });
 
-router.put("/:id", requireAll, checkClassById, (req, res) => {
+router.put("/:id", auth, checkClassById, requireAll, (req, res) => {
   const id = req.params.id;
   const changes = req.body;
   classes

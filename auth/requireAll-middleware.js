@@ -6,7 +6,7 @@ function requireAll(req, res, next) {
     !req.body.intensitylvl ||
     !req.body.location ||
     !req.body.current_size ||
-    req.body.max_size
+    !req.body.max_size
   ) {
     res.status(400).json({
       message:
