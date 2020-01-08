@@ -41,7 +41,7 @@ router.post("/register", (req, res) => {
       .catch(error => {
         console.log(error);
         res.status(500).json({
-          message: "Error adding the hub"
+          message: "Error adding the user"
         });
       });
   }
@@ -110,9 +110,15 @@ router.post("/createclass", auth, (req, res) => {
     });
 });
 
+router.post("/search", (req, res) => {
+  classes.findBy(req.body.name).then(data => {
+    res.status(200).send(data);
+  });
+});
+
 //
 
-router.delete("/:id", checkClassById, auth, (req, res) => {
+router.delete("/:id", auth, checkClassById, (req, res) => {
   classes
     .remove(req.params.id)
     .then(hub => {

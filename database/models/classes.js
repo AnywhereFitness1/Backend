@@ -13,8 +13,8 @@ function find() {
   return db("classes");
 }
 
-function findBy(username) {
-  return db("classes").where({ username });
+function findBy(name) {
+  return db("classes").where({ name: String(name) });
 }
 
 function findById(id) {
