@@ -6,10 +6,11 @@ const classes = require("../database/models/classes");
 const jwt = require("jsonwebtoken");
 const checkClassById = require("./checkClassById-middleware");
 const requireAll = require("./requireAll-middleware");
+const clientRestrict = require("./clientRestriction");
 
 //LOGIN/REGISTER//
 
-router.get("/users", auth, (req, res) => {
+router.get("/users", clientRestrict, (req, res) => {
   dataBase
     .find(req.query)
     .then(hubs => {
@@ -96,7 +97,7 @@ router.get("/:id", auth, checkClassById, (req, res) => {
     });
 });
 
-router.post("/createclass", auth, (req, res) => {
+router.post("/createclass", clientRestrict, (req, res) => {
   classes
     .add(req.body)
     .then(hub => {
@@ -111,20 +112,20 @@ router.post("/createclass", auth, (req, res) => {
 });
 
 router.post("/search", (req, res) => {
-    const filter = req.body;
-    classes
+  const filter = req.body;
+  classes
     .find(filter)
     .then(data => {
-      res.status(201).send(data)
+      res.status(201).send(data);
     })
     .catch(err => {
-      res.status(500).json(err)
-    })
+      res.status(500).json(err);
+    });
 });
 
 //
 
-router.delete("/:id", auth, checkClassById, (req, res) => {
+router.delete("/:id", clientRestrict, checkClassById, (req, res) => {
   classes
     .remove(req.params.id)
     .then(hub => {
@@ -135,7 +136,7 @@ router.delete("/:id", auth, checkClassById, (req, res) => {
     });
 });
 
-router.put("/:id", auth, checkClassById, requireAll, (req, res) => {
+router.put("/:id", clientRestrict, checkClassById, requireAll, (req, res) => {
   const id = req.params.id;
   const changes = req.body;
   classes
@@ -155,6 +156,7 @@ router.put("/:id", auth, checkClassById, requireAll, (req, res) => {
 function generateToken(user) {
   const payload = {
     user: user.username,
+    department: user.department,
     subject: user.id
   };
   const options = {
@@ -163,6 +165,6 @@ function generateToken(user) {
   return jwt.sign(payload, secret, options);
 }
 
-const secret = "easy password";
+const secret = process.env.SECRET_KEY;
 
 module.exports = router;

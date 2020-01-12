@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
   dotenv = require("dotenv");
   dotenv.config();
 }
+
 const secret = process.env.SECRET_KEY;
 
 function authenticate(req, res, next) {
