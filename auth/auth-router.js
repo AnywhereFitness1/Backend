@@ -36,7 +36,7 @@ router.post("/register", (req, res) => {
     dataBase
       .add(req.body)
       .then(hub => {
-        res.status(201).json(hub, { message: "User successfully registered." });
+        res.status(201).json({ message: "User successfully registered." });
       })
       .catch(error => {
         console.log(error);
@@ -111,9 +111,15 @@ router.post("/createclass", auth, (req, res) => {
 });
 
 router.post("/search", (req, res) => {
-  classes.findBy(req.body.name).then(data => {
-    res.status(200).send(data);
-  });
+    const filter = req.body;
+    classes
+    .find(filter)
+    .then(data => {
+      res.status(201).send(data)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
 });
 
 //
@@ -122,7 +128,7 @@ router.delete("/:id", auth, checkClassById, (req, res) => {
   classes
     .remove(req.params.id)
     .then(hub => {
-      res.status(201).json({ message: "class successfully deleted!" });
+      res.status(201).send({ message: "class successfully deleted!" });
     })
     .catch(error => {
       res.status(500).json({ message: "error deleting the class" });

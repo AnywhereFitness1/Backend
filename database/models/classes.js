@@ -13,8 +13,9 @@ function find() {
   return db("classes");
 }
 
-function findBy(name) {
-  return db("classes").where({ name: String(name) });
+function findBy(filter) {
+  //return db("classes").where({ name: String(name) });
+  return filter ? db("classes").where(filter) : db("classes");
 }
 
 function findById(id) {
