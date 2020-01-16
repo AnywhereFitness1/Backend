@@ -60,7 +60,11 @@ router.post("/login", (req, res) => {
         });
       } else if (user && bcrypt.compareSync(req.body.password, user.password)) {
         token = generateToken(user);
-        res.status(200).json({ message: `Welcome ${user.username}`, token });
+        const type = user.department;
+        
+        res
+          .status(200)
+          .json({ message: `Welcome ${user.username}`, token, type });
       } else {
         res.status(401).json({ message: "Invalid Credentials" });
       }
@@ -152,6 +156,10 @@ router.put("/:id", clientRestrict, checkClassById, requireAll, (req, res) => {
       res.status(500).json({ message: "The target could not be modified" });
     });
 });
+
+// router.post("/reservespot", auth, (req,res) => {
+
+// })
 
 function generateToken(user) {
   const payload = {
