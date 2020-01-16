@@ -53,7 +53,7 @@ router.post("/login", (req, res) => {
     .findBy(req.body.username)
     .first()
     .then(user => {
-      if (!req.body.username || !req.body.password || !req.body.department) {
+      if (!req.body.username || !req.body.password) {
         res.status(400).json({
           message:
             "Please provide username, password and department before posting to endpoint -Anywhere Fitness Inc."
