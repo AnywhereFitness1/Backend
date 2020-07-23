@@ -35,13 +35,15 @@ router.post("/register", (req, res) => {
     });
   } else if (credentials.department === "instructor") {
     console.log("success");
-    if (credentials.code === 8888) {
+    if (credentials.code === "secret") {
       delete req.body.code;
       dataBase
         .add(req.body)
         .then((hub) => {
           console.log(hub);
-          res.status(201).json({ message: "User successfully registered." });
+          res
+            .status(201)
+            .json({ message: "Instructor successfully registered." });
         })
         .catch((error) => {
           console.log(error);
